@@ -1,26 +1,34 @@
-<html lang="zh-CN"><head>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>米兰+卢加诺4天3晚行程总览</title>
+    <title>复活节欧洲之旅 - 布达佩斯→罗马→那不勒斯 5天4晚行程</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1e40af',
-                        secondary: '#d97706',
-                        accent: '#8b5cf6',
-                        light: '#f3f4f6',
-                        dark: '#1f2937'
+                        primary: '#e63946',
+                        secondary: '#457b9d',
+                        accent: '#f1faee',
+                        dark: '#1d3557',
+                        light: '#f8f9fa',
+                        easter1: '#FFB6C1', // 浅粉红
+                        easter2: '#87CEFA', // 亮天蓝
+                        easter3: '#98FB98', // 苍绿色
+                        easter4: '#FFDAB9', // 桃色
                     },
                     fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        'playfair': ['Playfair Display', 'serif'],
+                        'opensans': ['Open Sans', 'sans-serif'],
                     },
-                    boxShadow: {
-                        'card': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                    }
                 }
             }
         }
@@ -30,737 +38,932 @@
             .text-shadow {
                 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             }
-            .bg-gradient-primary {
-                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            .text-shadow-sm {
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
             }
-            .bg-gradient-secondary {
-                background: linear-gradient(135deg, #d97706 0%, #fbbf24 100%);
+            .bg-gradient-easter {
+                background: linear-gradient(135deg, theme('colors.easter1'), theme('colors.easter2'), theme('colors.easter3'), theme('colors.easter4'));
             }
             .transition-all-300 {
-                transition: all 300ms ease-in-out;
+                transition: all 0.3s ease;
             }
         }
-        
+    </style>
+    <style>
         /* 自定义样式 */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+        }
         .slide {
             min-height: 100vh;
-            width: 100%;
+            padding: 2rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 2rem;
             scroll-snap-align: start;
         }
-        
         .slides-container {
             scroll-snap-type: y mandatory;
             overflow-y: scroll;
             height: 100vh;
         }
-        
-        .timeline-item {
-            position: relative;
-            padding-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .timeline-item::before {
-            content: '';
+        .easter-egg {
             position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background-color: #3b82f6;
+            width: 50px;
+            height: 60px;
+            background-color: #FFB6C1;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform: rotate(45deg);
+            opacity: 0.8;
+            transition: all 0.3s ease;
         }
-        
-        .timeline-item::after {
-            content: '';
+        .easter-egg:hover {
+            transform: rotate(45deg) scale(1.2);
+            opacity: 1;
+        }
+        .easter-bunny {
             position: absolute;
-            left: -0.5rem;
+            width: 80px;
+            height: 80px;
+            background-color: #f5f5f5;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        .easter-bunny:hover {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 50%;
             top: 0;
-            height: 1rem;
-            width: 1rem;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, theme('colors.easter1'), theme('colors.easter2'), theme('colors.easter3'), theme('colors.easter4'));
+            transform: translateX(-50%);
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background-color: #3b82f6;
+            background-color: theme('colors.primary');
+            transform: translateX(-50%);
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px theme('colors.primary');
         }
-        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
         .card-hover:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-        
-        .tab-content {
-            display: none;
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 0.5rem;
         }
-        
-        .tab-content.active {
-            display: block;
+        .map-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
         }
-        
-        .tab-button.active {
-            background-color: #1e40af;
-            color: white;
+        .map-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: theme('colors.primary');
+            border: 3px solid white;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            transition: all 0.3s ease;
+        }
+        .map-marker:hover {
+            transform: translate(-50%, -50%) scale(1.3);
+        }
+        .map-line {
+            position: absolute;
+            height: 4px;
+            background: linear-gradient(to right, theme('colors.easter1'), theme('colors.easter2'), theme('colors.easter3'));
+            transform-origin: left center;
+            z-index: 15;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(45deg); }
+            50% { transform: translateY(-10px) rotate(45deg); }
+            100% { transform: translateY(0px) rotate(45deg); }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
         }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body>
     <div class="slides-container">
-        <!-- 标题页 -->
-        <section class="slide bg-gradient-primary text-white">
-            <div class="container mx-auto text-center">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 text-shadow">米兰 + 卢加诺</h1>
-                <p class="text-3xl md:text-4xl mb-8">4天3晚行程总览</p>
-                <p class="text-xl md:text-2xl mb-12">2026年3月2- 3月31日</p>
-                <div class="flex justify-center space-x-4">
-                    <div class="bg-white bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
-                        <i class="fa fa-calendar text-2xl mb-2"></i>
-                        <p>4天3晚</p>
+        <!-- 封面 -->
+        <section class="slide relative bg-cover bg-center" style="background-image: url('https://p26-doubao-search-sign.byteimg.com/labis/12e4c08c73b7d92c2d8fee0e8f743a49~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=7OfEG8x9wyJdKVAETWantJsHwLE%3D');">
+            <!-- 装饰性复活节元素 -->
+            <div class="easter-egg float-animation" style="top: 10%; left: 10%; background-color: theme('colors.easter1');"></div>
+            <div class="easter-egg float-animation" style="top: 15%; right: 15%; background-color: theme('colors.easter2'); animation-delay: 0.5s;"></div>
+            <div class="easter-egg float-animation" style="bottom: 20%; left: 15%; background-color: theme('colors.easter3'); animation-delay: 1s;"></div>
+            <div class="easter-egg float-animation" style="bottom: 15%; right: 10%; background-color: theme('colors.easter4'); animation-delay: 1.5s;"></div>
+            
+            <div class="absolute inset-0 bg-dark bg-opacity-50"></div>
+            <div class="relative z-10 text-center text-white px-4">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 text-shadow">复活节欧洲之旅</h1>
+                <div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+                <h2 class="text-3xl md:text-4xl font-semibold mb-8 text-shadow">布达佩斯 → 罗马 → 那不勒斯</h2>
+                <p class="text-xl md:text-2xl mb-10 text-shadow-sm">4月2日 – 4月6日 · 5天4晚</p>
+                <div class="flex justify-center items-center space-x-4">
+                    <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-4">
+                        <i class="fa fa-calendar text-2xl"></i>
                     </div>
-                    <div class="bg-white bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
-                        <i class="fa fa-users text-2xl mb-2"></i>
-                        <p>2人同行</p>
+                    <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-4">
+                        <i class="fa fa-map-marker text-2xl"></i>
                     </div>
-                    <div class="bg-white bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
-                        <i class="fa fa-map-marker text-2xl mb-2"></i>
-                        <p>意大利 + 瑞士</p>
+                    <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-4">
+                        <i class="fa fa-plane text-2xl"></i>
                     </div>
                 </div>
+            </div>
+            <div class="absolute bottom-10 left-0 right-0 text-center">
+                <a href="#overview" class="text-white animate-bounce inline-block">
+                    <i class="fa fa-chevron-down text-3xl"></i>
+                </a>
             </div>
         </section>
 
         <!-- 行程概览 -->
-        <section class="slide bg-white">
-            <div class="container mx-auto max-w-5xl">
-                <h2 class="text-4xl font-bold mb-8 text-center text-primary">行程概览</h2>
+        <section id="overview" class="slide bg-light relative">
+            <div class="max-w-6xl mx-auto w-full">
+                <h2 class="text-4xl font-bold mb-12 text-center text-dark">行程概览</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- 基本信息 -->
-                    <div class="bg-light rounded-xl p-6 shadow-card">
-                        <h3 class="text-2xl font-bold mb-4 text-primary flex items-center">
-                            <i class="fa fa-info-circle mr-2"></i>基本信息
-                        </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <!-- 布达佩斯 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://p3-doubao-search-sign.byteimg.com/labis/cdfa5431fdae987daf1e3a0212041986~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=f9vtIifvReHt9KnSzoYpLGmJFcE%3D" alt="布达佩斯" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-2xl font-bold text-dark">布达佩斯</h3>
+                                <span class="bg-easter1 text-dark text-sm font-semibold px-3 py-1 rounded-full">4月2日</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">抵达布达佩斯国际机场，入住机场附近酒店，休息调整时差。</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="fa fa-hotel mr-2"></i>
+                                <span>Ibis Styles Budapest Airport</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 罗马 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/905615475284639859~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=f2DgbX%2FSeWn28gkYy6Os9%2B6L3TA%3D" alt="罗马" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-2xl font-bold text-dark">罗马 & 梵蒂冈</h3>
+                                <span class="bg-easter2 text-dark text-sm font-semibold px-3 py-1 rounded-full">4月3-4日</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">游览罗马市区经典景点，参观梵蒂冈博物馆、西斯廷教堂和圣彼得大教堂。</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="fa fa-hotel mr-2"></i>
+                                <span>罗马圣彼得红衣主教酒店</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 那不勒斯 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/912693701645959256~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=T1SsLS9IFsV1oreZvx06tgN7wwo%3D" alt="那不勒斯" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-2xl font-bold text-dark">那不勒斯</h3>
+                                <span class="bg-easter3 text-dark text-sm font-semibold px-3 py-1 rounded-full">4月4-6日</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">探索那不勒斯老城区，可选择参观庞贝古城或维苏威火山，品尝正宗那不勒斯披萨。</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="fa fa-hotel mr-2"></i>
+                                <span>RIDA 33 Vomero</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 路线图 -->
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-12">
+                    <h3 class="text-2xl font-bold mb-6 text-center text-dark">路线图</h3>
+                    <div class="map-container relative">
+                        <div class="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                            <div class="w-full h-full relative">
+                                <!-- 简化的欧洲地图背景 -->
+                                <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://p26-doubao-search-sign.byteimg.com/labis/12e4c08c73b7d92c2d8fee0e8f743a49~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=7OfEG8x9wyJdKVAETWantJsHwLE%3D')"></div>
+                                
+                                <!-- 标记点 -->
+                                <div class="map-marker" style="top: 30%; left: 30%;">
+                                    <div class="absolute -top-10 -left-20 bg-white p-2 rounded shadow text-xs">布达佩斯</div>
+                                </div>
+                                <div class="map-marker" style="top: 40%; left: 60%;">
+                                    <div class="absolute -top-10 -left-20 bg-white p-2 rounded shadow text-xs">罗马</div>
+                                </div>
+                                <div class="map-marker" style="top: 50%; left: 65%;">
+                                    <div class="absolute -top-10 -left-20 bg-white p-2 rounded shadow text-xs">那不勒斯</div>
+                                </div>
+                                
+                                <!-- 连接线 -->
+                                <div class="map-line" style="top: 30%; left: 30%; width: 30%; transform: rotate(15deg);"></div>
+                                <div class="map-line" style="top: 40%; left: 60%; width: 15%; transform: rotate(45deg);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 交通信息 -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-2xl font-bold mb-6 text-center text-dark">交通信息</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex items-start p-4 border border-gray-200 rounded-lg">
+                            <div class="bg-easter1 rounded-full p-3 mr-4">
+                                <i class="fa fa-plane text-dark"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">布达佩斯 → 罗马</h4>
+                                <p class="text-gray-600">4月3日 06:05 起飞，07:55 到达</p>
+                                <p class="text-sm text-gray-500">需凌晨3点起床，3点半到达机场</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start p-4 border border-gray-200 rounded-lg">
+                            <div class="bg-easter2 rounded-full p-3 mr-4">
+                                <i class="fa fa-train text-dark"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">罗马 → 那不勒斯</h4>
+                                <p class="text-gray-600">4月4日 17:15 出发，18:16 到达</p>
+                                <p class="text-sm text-gray-500">从Roma Termini火车站出发</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 每日行程详情 -->
+        <section class="slide bg-gradient-to-b from-light to-white relative">
+            <div class="max-w-6xl mx-auto w-full">
+                <h2 class="text-4xl font-bold mb-12 text-center text-dark">每日行程详情</h2>
+                
+                <!-- 4月2日 -->
+                <div class="mb-16">
+                    <div class="flex items-center mb-8">
+                        <div class="w-16 h-16 rounded-full bg-easter1 flex items-center justify-center text-dark font-bold text-xl mr-4">
+                            2日
+                        </div>
+                        <h3 class="text-3xl font-bold text-dark">布达佩斯 · 抵达日</h3>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="md:flex">
+                            <div class="md:w-1/3">
+                                <img src="https://p3-doubao-search-sign.byteimg.com/labis/cdfa5431fdae987daf1e3a0212041986~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=f9vtIifvReHt9KnSzoYpLGmJFcE%3D" alt="布达佩斯机场" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-6 md:w-2/3">
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-bold mb-2 text-dark">行程安排</h4>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start">
+                                            <span class="bg-easter1 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-clock-o text-sm"></i>
+                                            </span>
+                                            <span><strong>下午</strong>：抵达布达佩斯国际机场</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter1 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-hotel text-sm"></i>
+                                            </span>
+                                            <span>前往并入住 Ibis Styles Budapest Airport 酒店</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter1 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-cutlery text-sm"></i>
+                                            </span>
+                                            <span><strong>晚上</strong>：在机场或酒店附近简单用餐</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter1 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-moon-o text-sm"></i>
+                                            </span>
+                                            <span>早点休息，为第二天的早班机做准备</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-bold mb-2 text-dark">住宿信息</h4>
+                                    <div class="flex items-start">
+                                        <span class="bg-easter1 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                            <i class="fa fa-building text-sm"></i>
+                                        </span>
+                                        <div>
+                                            <p class="font-semibold">Ibis Styles Budapest Airport</p>
+                                            <p class="text-gray-600 text-sm">地址：Hrsz. 072 3, Liszt Ferenc, International Airport, Terminal 2, 1185 Budapest</p>
+                                            <p class="text-gray-600 text-sm">特色：距离机场仅5分钟步行路程，提供免费WiFi和隔音房间</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2 text-dark">小贴士</h4>
+                                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fa fa-lightbulb-o text-yellow-400"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm text-yellow-700">
+                                                    由于第二天需要早起赶飞机，建议当天尽量休息，并提前准备好行李。酒店距离航站楼很近，非常方便赶早班机。
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 4月3日 -->
+                <div class="mb-16">
+                    <div class="flex items-center mb-8">
+                        <div class="w-16 h-16 rounded-full bg-easter2 flex items-center justify-center text-dark font-bold text-xl mr-4">
+                            3日
+                        </div>
+                        <h3 class="text-3xl font-bold text-dark">布达佩斯 → 罗马</h3>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="md:flex">
+                            <div class="md:w-1/3">
+                                <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/905615475284639859~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=f2DgbX%2FSeWn28gkYy6Os9%2B6L3TA%3D" alt="罗马西班牙阶梯" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-6 md:w-2/3">
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-bold mb-2 text-dark">行程安排</h4>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start">
+                                            <span class="bg-easter2 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-clock-o text-sm"></i>
+                                            </span>
+                                            <span><strong>03:00</strong>：起床，准备前往机场</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter2 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-plane text-sm"></i>
+                                            </span>
+                                            <span><strong>06:05</strong>：布达佩斯起飞 → <strong>07:55</strong>：抵达罗马</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter2 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-car text-sm"></i>
+                                            </span>
+                                            <span><strong>09:00</strong>：打车前往罗马圣彼得红衣主教酒店</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter2 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-cutlery text-sm"></i>
+                                            </span>
+                                            <span><strong>中午</strong>：在酒店附近用午餐，休息</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter2 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-map-o text-sm"></i>
+                                            </span>
+                                            <span><strong>下午</strong>：罗马市区经典路线：西班牙阶梯 → 许愿池 → 万神殿</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter2 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-moon-o text-sm"></i>
+                                            </span>
+                                            <span><strong>晚上</strong>：晚餐后欣赏许愿池夜景，回酒店休息</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-bold mb-2 text-dark">住宿信息</h4>
+                                    <div class="flex items-start">
+                                        <span class="bg-easter2 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                            <i class="fa fa-building text-sm"></i>
+                                        </span>
+                                        <div>
+                                            <p class="font-semibold">罗马圣彼得红衣主教酒店 (Cardinal Hotel St. Peter)</p>
+                                            <p class="text-gray-600 text-sm">地址：Via Leone Dehon, 71, 罗马00165</p>
+                                            <p class="text-gray-600 text-sm">特色：距离圣彼得大教堂不到10分钟车程，提供免费私人停车场和室外泳池</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2 text-dark">小贴士</h4>
+                                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fa fa-lightbulb-o text-yellow-400"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm text-yellow-700">
+                                                    这一天会比较辛苦，建议提前一天做好准备。罗马的景点之间距离不远，可以步行游览，节省交通时间。许愿池晚上灯光效果很美，值得一看。
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 4月4日 -->
+                <div class="mb-16">
+                    <div class="flex items-center mb-8">
+                        <div class="w-16 h-16 rounded-full bg-easter3 flex items-center justify-center text-dark font-bold text-xl mr-4">
+                            4日
+                        </div>
+                        <h3 class="text-3xl font-bold text-dark">罗马 → 梵蒂冈 → 那不勒斯</h3>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="md:flex">
+                            <div class="md:w-1/3">
+                                <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/942970317679493151~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=8HpIdPZ9Rx3wKcSWfqBMUPykdAs%3D" alt="梵蒂冈圣彼得大教堂" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-6 md:w-2/3">
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-bold mb-2 text-dark">行程安排</h4>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start">
+                                            <span class="bg-easter3 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-clock-o text-sm"></i>
+                                            </span>
+                                            <span><strong>07:30</strong>：起床，准备出发</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter3 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-map-o text-sm"></i>
+                                            </span>
+                                            <span><strong>09:00-12:30</strong>：参观梵蒂冈博物馆、西斯廷教堂、圣彼得大教堂</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter3 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-cutlery text-sm"></i>
+                                            </span>
+                                            <span><strong>中午</strong>：在梵蒂冈附近用午餐</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter3 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-suitcase text-sm"></i>
+                                            </span>
+                                            <span><strong>14:30</strong>：回酒店取行李，前往Roma Termini火车站</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter3 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-train text-sm"></i>
+                                            </span>
+                                            <span><strong>17:15</strong>：罗马出发 → <strong>18:16</strong>：抵达那不勒斯</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter3 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-hotel text-sm"></i>
+                                            </span>
+                                            <span>前往并入住 RIDA 33 Vomero 酒店</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter3 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-cutlery text-sm"></i>
+                                            </span>
+                                            <span><strong>晚上</strong>：享用正宗那不勒斯披萨（推荐 L'Antica Pizzeria da Michele）</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-bold mb-2 text-dark">住宿信息</h4>
+                                    <div class="flex items-start">
+                                        <span class="bg-easter3 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                            <i class="fa fa-building text-sm"></i>
+                                        </span>
+                                        <div>
+                                            <p class="font-semibold">RIDA 33 Vomero</p>
+                                            <p class="text-gray-600 text-sm">地址：Via Pietro Mascagni, 33, 那不勒斯80128</p>
+                                            <p class="text-gray-600 text-sm">特色：位于Vomero区，安全安静，靠近地铁站和超市，周边有多家餐厅</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2 text-dark">小贴士</h4>
+                                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fa fa-lightbulb-o text-yellow-400"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm text-yellow-700">
+                                                    梵蒂冈博物馆建议提前购票，避免排队。参观时间较长，建议穿舒适的鞋子。从酒店到火车站打车约30分钟，请预留足够时间。L'Antica Pizzeria da Michele是当地知名披萨店，可能需要排队。
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 4月5日 -->
+                <div class="mb-16">
+                    <div class="flex items-center mb-8">
+                        <div class="w-16 h-16 rounded-full bg-easter4 flex items-center justify-center text-dark font-bold text-xl mr-4">
+                            5日
+                        </div>
+                        <h3 class="text-3xl font-bold text-dark">那不勒斯</h3>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="md:flex">
+                            <div class="md:w-1/3">
+                                <img src="https://p11-doubao-search-sign.byteimg.com/labis/c06e9a4f699731573c75eeb505a8aeac~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002572&x-signature=oUd7aDtGcYB1xAx3MVjoWtI47Ck%3D" alt="圣埃莫堡" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-6 md:w-2/3">
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-bold mb-2 text-dark">行程安排</h4>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start">
+                                            <span class="bg-easter4 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-coffee text-sm"></i>
+                                            </span>
+                                            <span><strong>上午</strong>：在那不勒斯老城区漫步，参观教堂和小店</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter4 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-cutlery text-sm"></i>
+                                            </span>
+                                            <span><strong>中午</strong>：在本地餐厅享用那不勒斯美食</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter4 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-info-circle text-sm"></i>
+                                            </span>
+                                            <span><strong>下午（选择一）</strong>：轻松路线 - 参观圣埃莫堡，欣赏城市全景，然后去海边散步喝咖啡</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter4 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-info-circle text-sm"></i>
+                                            </span>
+                                            <span><strong>下午（选择二）</strong>：文化路线 - 参观庞贝古城或维苏威火山（时间较紧，会更累）</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-easter4 bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-moon-o text-sm"></i>
+                                            </span>
+                                            <span><strong>晚上</strong>：享用另一顿那不勒斯本地餐，随意逛逛</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-bold mb-2 text-dark">景点介绍</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="border border-gray-200 rounded-lg p-4">
+                                            <h5 class="font-bold mb-2">圣埃莫堡</h5>
+                                            <p class="text-sm text-gray-600">那不勒斯的标志性城堡，提供整个城市和海湾的壮丽景色。</p>
+                                        </div>
+                                        <div class="border border-gray-200 rounded-lg p-4">
+                                            <h5 class="font-bold mb-2">庞贝古城</h5>
+                                            <p class="text-sm text-gray-600">被维苏威火山灰保存完好的古罗马城市，展示了古罗马人的日常生活。</p>
+                                        </div>
+                                        <div class="border border-gray-200 rounded-lg p-4">
+                                            <h5 class="font-bold mb-2">维苏威火山</h5>
+                                            <p class="text-sm text-gray-600">欧洲最活跃的火山之一，上次喷发是在1944年。</p>
+                                        </div>
+                                        <div class="border border-gray-200 rounded-lg p-4">
+                                            <h5 class="font-bold mb-2">那不勒斯老城区</h5>
+                                            <p class="text-sm text-gray-600">充满活力的地区，有许多历史建筑、市场和餐厅。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2 text-dark">小贴士</h4>
+                                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fa fa-lightbulb-o text-yellow-400"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm text-yellow-700">
+                                                    根据前几天的疲劳程度选择下午的行程。如果选择庞贝古城，建议早上就出发，因为从那不勒斯到庞贝需要一定时间。那不勒斯的披萨非常有名，值得多尝试几家。
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 4月6日 -->
+                <div>
+                    <div class="flex items-center mb-8">
+                        <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xl mr-4">
+                            6日
+                        </div>
+                        <h3 class="text-3xl font-bold text-dark">离开</h3>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="md:flex">
+                            <div class="md:w-1/3">
+                                <img src="https://p3-doubao-search-sign.byteimg.com/labis/ce77841c3e449f1cef7777d6c7b3855b~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=CwS3RysCqLjwIfO5oMKI42QBFX4%3D" alt="维苏威火山" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-6 md:w-2/3">
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-bold mb-2 text-dark">行程安排</h4>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start">
+                                            <span class="bg-primary bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-clock-o text-sm"></i>
+                                            </span>
+                                            <span>根据航班时间安排起床和出发时间</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-primary bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-sign-out text-sm"></i>
+                                            </span>
+                                            <span>办理酒店退房手续</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="bg-primary bg-opacity-20 text-dark rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                                                <i class="fa fa-plane text-sm"></i>
+                                            </span>
+                                            <span>前往那不勒斯国际机场，搭乘返程航班</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-bold mb-2 text-dark">交通提示</h4>
+                                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fa fa-exclamation-circle text-blue-400"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm text-blue-700">
+                                                    建议提前3小时到达机场，因为那不勒斯的交通可能不稳定。从Vomero区到机场可以乘坐地铁加火车，或者直接打车。如果选择公共交通，请预留足够的时间。
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2 text-dark">复活节祝福</h4>
+                                    <div class="bg-gradient-easter p-6 rounded-lg text-center">
+                                        <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/993910141743136790~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=sria8JOqIhnXaINjP1F1mHQJgVw%3D" alt="复活节兔子和彩蛋" class="w-32 h-32 object-contain mx-auto mb-4">
+                                        <p class="text-dark font-semibold">祝您复活节快乐！</p>
+                                        <p class="text-dark">愿这次欧洲之旅给您留下美好的回忆！</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 实用信息 -->
+        <section class="slide bg-dark text-white relative">
+            <div class="max-w-6xl mx-auto w-full">
+                <h2 class="text-4xl font-bold mb-12 text-center">实用信息</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                    <!-- 货币信息 -->
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-easter1 rounded-full p-3 mr-4">
+                                <i class="fa fa-money text-dark"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold">货币信息</h3>
+                        </div>
                         <ul class="space-y-3">
                             <li class="flex items-start">
-                                <i class="fa fa-home text-secondary mt-1 mr-3"></i>
-                                <div>
-                                    <span class="font-semibold">住宿：</span>
-                                    <span>Mi Casa FRASCHINI（米兰市中心，步行可达主要景点）</span>
-                                </div>
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span><strong>匈牙利（布达佩斯）</strong>：匈牙利福林 (HUF)</span>
                             </li>
                             <li class="flex items-start">
-                                <i class="fa fa-users text-secondary mt-1 mr-3"></i>
-                                <div>
-                                    <span class="font-semibold">同行：</span>
-                                    <span>你 &amp; Jessie</span>
-                                </div>
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span><strong>意大利（罗马、那不勒斯）</strong>：欧元 (EUR)</span>
                             </li>
                             <li class="flex items-start">
-                                <i class="fa fa-calendar-check-o text-secondary mt-1 mr-3"></i>
-                                <div>
-                                    <span class="font-semibold">特殊安排：</span>
-                                    <ul class="list-disc list-inside ml-2">
-                                        <li>3.29 14:00-21:00 你需与朋友聚会，Jessie 单独活动</li>
-                                        <li>3.30 全天：卢加诺（瑞士）一日游</li>
-                                    </ul>
-                                </div>
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span>建议提前兑换一些当地货币，主要景点和餐厅都可以刷卡</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span>机场和主要旅游区有货币兑换处，但汇率可能不太理想</span>
                             </li>
                         </ul>
                     </div>
                     
-                    <!-- 航班信息 -->
-                    <div class="bg-light rounded-xl p-6 shadow-card">
-                        <h3 class="text-2xl font-bold mb-4 text-primary flex items-center">
-                            <i class="fa fa-plane mr-2"></i>航班信息
-                        </h3>
-                        <ul class="space-y-6">
-                            <li>
-                                <div class="flex items-center mb-2">
-                                    <i class="fa fa-arrow-right text-secondary mr-3"></i>
-                                    <span class="font-semibold">去程：3月28日</span>
-                                </div>
-                                <div class="ml-8">
-                                    <p>布达佩斯 → 米兰马尔彭萨</p>
-                                    <p class="text-sm text-gray-600">18:10 起飞</p>
-                                </div>
+                    <!-- 语言信息 -->
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-easter2 rounded-full p-3 mr-4">
+                                <i class="fa fa-comments text-dark"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold">语言信息</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span><strong>匈牙利（布达佩斯）</strong>：匈牙利语</span>
                             </li>
-                            <li>
-                                <div class="flex items-center mb-2">
-                                    <i class="fa fa-arrow-left text-secondary mr-3"></i>
-                                    <span class="font-semibold">返程：3月31日</span>
-                                </div>
-                                <div class="ml-8">
-                                    <p>米兰贝加莫 → 布达佩斯</p>
-                                    <p class="text-sm text-gray-600">16:05 起飞</p>
-                                </div>
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span><strong>意大利（罗马、那不勒斯）</strong>：意大利语</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span>旅游区的工作人员通常会说英语</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span>建议下载翻译应用，以备不时之需</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 天气信息 -->
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-easter3 rounded-full p-3 mr-4">
+                                <i class="fa fa-cloud text-dark"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold">天气信息</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span><strong>布达佩斯（4月初）</strong>：平均温度 5-15°C，可能有雨</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span><strong>罗马、那不勒斯（4月初）</strong>：平均温度 10-20°C，天气较为晴朗</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span>建议携带轻便的外套和雨具，特别是在布达佩斯</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span>意大利的阳光可能较强，建议携带防晒霜和太阳镜</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 交通信息 -->
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-easter4 rounded-full p-3 mr-4">
+                                <i class="fa fa-bus text-dark"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold">当地交通</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span><strong>布达佩斯</strong>：公共交通系统发达，有机场巴士连接市区</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span><strong>罗马</strong>：地铁、公交车和出租车是主要交通方式，景点之间可步行</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span><strong>那不勒斯</strong>：地铁和公交车网络完善，出租车也是不错的选择</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-circle text-xs mt-1.5 mr-2"></i>
+                                <span>建议购买当地交通卡或单次票，根据使用频率选择</span>
                             </li>
                         </ul>
                     </div>
                 </div>
                 
-                <!-- 行程时间表 -->
-                <div class="mt-8 bg-light rounded-xl p-6 shadow-card">
-                    <h3 class="text-2xl font-bold mb-4 text-primary flex items-center">
-                        <i class="fa fa-clock-o mr-2"></i>行程时间表
-                    </h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center border-b border-gray-200 pb-2">
-                            <div class="w-24 font-semibold">3月28日</div>
-                            <div class="flex-1">抵达米兰 + 城市初体验</div>
+                <!-- 复活节特色 -->
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-8 mb-16">
+                    <div class="flex items-center mb-6 justify-center">
+                        <div class="bg-gradient-easter rounded-full p-4 mr-4">
+                            <i class="fa fa-paint-brush text-dark text-xl"></i>
                         </div>
-                        <div class="flex items-center border-b border-gray-200 pb-2">
-                            <div class="w-24 font-semibold">3月29日</div>
-                            <div class="flex-1">分线游玩日（上午同行，下午分开）</div>
-                        </div>
-                        <div class="flex items-center border-b border-gray-200 pb-2">
-                            <div class="w-24 font-semibold">3月30日</div>
-                            <div class="flex-1">卢加诺（瑞士）一日游</div>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-24 font-semibold">3月31日</div>
-                            <div class="flex-1">米兰深度游 + 返程</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3月28日行程 -->
-        <section class="slide bg-gray-50">
-            <div class="container mx-auto max-w-5xl">
-                <div class="bg-white rounded-xl p-8 shadow-card">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-3xl font-bold text-primary">3月28日（周六）</h2>
-                        <span class="bg-primary text-white px-4 py-2 rounded-full text-lg">抵达米兰 + 城市初体验</span>
+                        <h3 class="text-2xl font-bold">复活节特色活动</h3>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div class="bg-light rounded-lg p-4 text-center">
-                            <i class="fa fa-plane text-3xl text-secondary mb-2"></i>
-                            <h3 class="font-bold">出发与抵达</h3>
-                            <p class="text-sm text-gray-600">14:00-18:00</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white bg-opacity-5 rounded-lg p-4">
+                            <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1060629246068392002~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=nADjLR2E2gNoY1BCuzgCztez0bY%3D" alt="复活节彩蛋" class="w-full h-40 object-contain mb-4">
+                            <h4 class="font-bold mb-2 text-center">复活节彩蛋</h4>
+                            <p class="text-sm text-gray-300 text-center">在欧洲，复活节彩蛋是重要的象征，代表着新生命和重生。许多地方会举办彩蛋装饰比赛和滚彩蛋活动。</p>
                         </div>
-                        <div class="bg-light rounded-lg p-4 text-center">
-                            <i class="fa fa-bed text-3xl text-secondary mb-2"></i>
-                            <h3 class="font-bold">办理入住</h3>
-                            <p class="text-sm text-gray-600">19:30-20:30</p>
+                        <div class="bg-white bg-opacity-5 rounded-lg p-4">
+                            <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/998316254201511946~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=cPe7yhntbhXzv6Dti2CuGPffWks%3D" alt="复活节兔子" class="w-full h-40 object-contain mb-4">
+                            <h4 class="font-bold mb-2 text-center">复活节兔子</h4>
+                            <p class="text-sm text-gray-300 text-center">复活节兔子是另一个重要象征，因为兔子的繁殖能力强，被视为新生命的创造者。孩子们相信兔子会带来彩蛋和礼物。</p>
                         </div>
-                        <div class="bg-light rounded-lg p-4 text-center">
-                            <i class="fa fa-cutlery text-3xl text-secondary mb-2"></i>
-                            <h3 class="font-bold">晚餐 + 夜景漫步</h3>
-                            <p class="text-sm text-gray-600">20:30-22:00</p>
-                        </div>
-                    </div>
-                    
-                    <div class="space-y-6">
-                        <div class="timeline-item">
-                            <h3 class="text-xl font-bold text-primary mb-2">14:00-18:00 出发与抵达</h3>
-                            <ul class="space-y-2 ml-2">
-                                <li>从布达佩斯乘航班（18:10 起飞）前往米兰马尔彭萨机场（MXP）</li>
-                                <li class="font-semibold">机场→市区交通选择：</li>
-                                <li class="ml-4">- Malpensa Express火车到米兰中央车站（约 45 分钟，€13）</li>
-                                <li class="ml-4">- 打车（约€90，1 小时）</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <h3 class="text-xl font-bold text-primary mb-2">19:30-22:00 办理入住 + 晚餐 + 夜景漫步</h3>
-                            <ul class="space-y-2 ml-2">
-                                <li>办理入住：Mi Casa FRASCHINI</li>
-                                <li class="font-semibold">晚餐推荐：</li>
-                                <li class="ml-4">- 经典意式：Trattoria Sorbillo（米兰分店，尝正宗那不勒斯披萨）</li>
-                                <li class="ml-4">- 氛围小馆：Trattoria del Nuovo Macello（米兰菜，手工意面）</li>
-                                <li class="font-semibold">夜景散步：</li>
-                                <li class="ml-4">- 从酒店步行至斯福尔扎城堡广场或大教堂广场，感受夜晚灯光下的建筑氛围</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-8 bg-blue-50 rounded-lg p-4 border-l-4 border-primary">
-                        <h4 class="font-bold text-primary mb-2">今日提示</h4>
-                        <p>长途飞行后建议早点休息，为接下来的行程养精蓄锐。如果时间充裕，可以简单熟悉一下酒店周边环境。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3月29日行程 -->
-        <section class="slide bg-gray-50">
-            <div class="container mx-auto max-w-5xl">
-                <div class="bg-white rounded-xl p-8 shadow-card">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-3xl font-bold text-primary">3月29日（周日）</h2>
-                        <span class="bg-primary text-white px-4 py-2 rounded-full text-lg">分线游玩日</span>
-                    </div>
-                    
-                    <div class="mb-8">
-                        <h3 class="text-2xl font-bold text-primary mb-4">上午（09:00-14:00）：你 &amp; Jessie 同行</h3>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                            <div class="bg-light rounded-lg p-4 text-center">
-                                <i class="fa fa-building text-3xl text-secondary mb-2"></i>
-                                <h4 class="font-bold">米兰大教堂</h4>
-                                <p class="text-sm text-gray-600">09:00-10:30</p>
-                            </div>
-                            <div class="bg-light rounded-lg p-4 text-center">
-                                <i class="fa fa-shopping-bag text-3xl text-secondary mb-2"></i>
-                                <h4 class="font-bold">大教堂周边 + 长廊</h4>
-                                <p class="text-sm text-gray-600">10:30-12:00</p>
-                            </div>
-                            <div class="bg-light rounded-lg p-4 text-center">
-                                <i class="fa fa-cutlery text-3xl text-secondary mb-2"></i>
-                                <h4 class="font-bold">午餐</h4>
-                                <p class="text-sm text-gray-600">12:00-13:30</p>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <div class="timeline-item">
-                                <h4 class="text-xl font-bold text-primary mb-2">09:00-10:30 米兰大教堂（Duomo di Milano）</h4>
-                                <ul class="space-y-2 ml-2">
-                                    <li>提前预约登顶（推荐电梯 + 楼梯联票，€20），俯瞰米兰全景</li>
-                                    <li>近距离欣赏哥特式尖顶与雕塑</li>
-                                    <li>入内参观（免费，需着装得体），感受彩色玻璃窗与宏伟穹顶</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <h4 class="text-xl font-bold text-primary mb-2">10:30-12:00 大教堂周边 + 埃马努埃莱二世长廊</h4>
-                                <ul class="space-y-2 ml-2">
-                                    <li>长廊是 "米兰客厅"，玻璃穹顶 + 奢侈品店，适合拍照打卡</li>
-                                    <li>可在Marchesi 1824买一份传统甜点</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <h4 class="text-xl font-bold text-primary mb-2">12:00-13:30 午餐</h4>
-                                <ul class="space-y-2 ml-2">
-                                    <li>在长廊或附近的Luini尝炸饭团（Arancini）</li>
-                                    <li>或去Pizzi吃平价意面</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-8">
-                        <h3 class="text-2xl font-bold text-primary mb-4">下午（14:00-21:00）：分线活动</h3>
-                        
-                        <div class="flex flex-col md:flex-row gap-6">
-                            <!-- 你的行程 -->
-                            <div class="flex-1 bg-blue-50 rounded-lg p-6">
-                                <h4 class="text-xl font-bold text-primary mb-3 flex items-center">
-                                    <i class="fa fa-user mr-2"></i>你的行程：与朋友聚会
-                                </h4>
-                                <p class="italic text-gray-600">14:00-21:00 与朋友聚会，Jessie 单独活动</p>
-                            </div>
-                            
-                            <!-- Jessie的行程选项 -->
-                            <div class="flex-1">
-                                <h4 class="text-xl font-bold text-primary mb-3 flex items-center">
-                                    <i class="fa fa-user mr-2"></i>Jessie的行程选项
-                                </h4>
-                                
-                                <div class="mb-4">
-                                    <div class="flex border-b">
-                                        <button class="tab-button active px-4 py-2 font-medium" onclick="switchTab('tab1', this)">方案A：文艺复古路线</button>
-                                        <button class="tab-button px-4 py-2 font-medium" onclick="switchTab('tab2', this)">方案B：时尚购物路线</button>
-                                    </div>
-                                    
-                                    <div id="tab1" class="tab-content active bg-light rounded-b-lg p-4">
-                                        <div class="space-y-3">
-                                            <div>
-                                                <h5 class="font-bold">14:00-16:30 布雷拉美术区（Brera）</h5>
-                                                <ul class="ml-4 text-sm">
-                                                    <li>漫步鹅卵石小巷，逛独立设计师店、复古书店与画廊</li>
-                                                    <li>参观布雷拉美术馆（€12），看拉斐尔、卡拉瓦乔等大师作品</li>
-                                                    <li>在Caffè Cova喝咖啡，感受复古氛围</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h5 class="font-bold">16:30-18:30 森皮奥内公园 + 和平门</h5>
-                                                <ul class="ml-4 text-sm">
-                                                    <li>从布雷拉步行至公园，在草坪晒太阳、喂鸽子</li>
-                                                    <li>走到和平门，模仿凯旋门的新古典主义建筑</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h5 class="font-bold">18:30-21:00 运河区（Navigli）晚餐 + 夜生活</h5>
-                                                <ul class="ml-4 text-sm">
-                                                    <li>沿Naviglio Grande运河散步，看沿岸彩色房子与酒吧</li>
-                                                    <li>晚餐推荐：Trattoria alla Madonna或Osteria del Binario</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div id="tab2" class="tab-content bg-light rounded-b-lg p-4">
-                                        <div class="space-y-3">
-                                            <div>
-                                                <h5 class="font-bold">14:00-17:30 蒙特拿破仑大街 + 斯皮加街</h5>
-                                                <ul class="ml-4 text-sm">
-                                                    <li>逛奢侈品店（Gucci、Prada等），感受米兰时尚氛围</li>
-                                                    <li>逛10 Corso Como买手店，融合时尚、艺术与咖啡</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h5 class="font-bold">17:30-21:00 圣巴比拉区 + 晚餐</h5>
-                                                <ul class="ml-4 text-sm">
-                                                    <li>逛快时尚品牌（Zara、H&amp;M等）</li>
-                                                    <li>或去Corso Buenos Aires平价商业街</li>
-                                                    <li>晚餐在Terrazza Aperol，边喝Aperol Spritz边看街景</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h3 class="text-2xl font-bold text-primary mb-4">晚上（21:00 后）：汇合</h3>
-                        <p>回酒店休息，或在运河区小坐，分享各自的游玩体验</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3月30日行程 -->
-        <section class="slide bg-gray-50">
-            <div class="container mx-auto max-w-5xl">
-                <div class="bg-white rounded-xl p-8 shadow-card">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-3xl font-bold text-primary">3月30日（周一）</h2>
-                        <span class="bg-primary text-white px-4 py-2 rounded-full text-lg">卢加诺（瑞士）一日游</span>
-                    </div>
-                    
-                    <div class="mb-8">
-                        <div class="relative h-64 md:h-80 rounded-xl overflow-hidden mb-6">
-                            <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1003337715214974996~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&amp;x-expires=1789998611&amp;x-signature=nh%2FsswwjdTUTaBnESQOpT%2FPgwjg%3D" alt="卢加诺湖" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                                <p class="text-white text-xl font-bold p-6">卢加诺湖全景</p>
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                            <div class="bg-light rounded-lg p-4 text-center">
-                                <i class="fa fa-train text-3xl text-secondary mb-2"></i>
-                                <h4 class="font-bold">米兰→卢加诺</h4>
-                                <p class="text-sm text-gray-600">08:00-09:00</p>
-                            </div>
-                            <div class="bg-light rounded-lg p-4 text-center">
-                                <i class="fa fa-map-o text-3xl text-secondary mb-2"></i>
-                                <h4 class="font-bold">卢加诺湖 + 老城区</h4>
-                                <p class="text-sm text-gray-600">09:00-12:00</p>
-                            </div>
-                            <div class="bg-light rounded-lg p-4 text-center">
-                                <i class="fa fa-cutlery text-3xl text-secondary mb-2"></i>
-                                <h4 class="font-bold">午餐</h4>
-                                <p class="text-sm text-gray-600">12:00-14:00</p>
-                            </div>
-                            <div class="bg-light rounded-lg p-4 text-center">
-                                <i class="fa fa-mountain text-3xl text-secondary mb-2"></i>
-                                <h4 class="font-bold">圣萨尔瓦托雷山</h4>
-                                <p class="text-sm text-gray-600">14:00-17:30</p>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-6">
-                            <div class="timeline-item">
-                                <h3 class="text-xl font-bold text-primary mb-2">08:00-09:00 米兰→卢加诺</h3>
-                                <ul class="space-y-2 ml-2">
-                                    <li>从米兰中央车站乘火车到卢加诺车站（约 1 小时，直达车次，€20-30）</li>
-                                    <li>建议买瑞士通票或米兰 - 卢加诺往返特价票，更划算</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <h3 class="text-xl font-bold text-primary mb-2">09:00-12:00 卢加诺湖 + 老城区</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <h4 class="font-bold">卢加诺湖（Lago di Lugano）：</h4>
-                                        <ul class="space-y-2 ml-2">
-                                            <li>从车站步行至湖边，租一艘小船（€30 / 小时）或乘渡轮（€10 / 单程）游湖</li>
-                                            <li>沿湖步道散步，拍 "湖 + 阿尔卑斯山" 全景照</li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold">老城区（Città Vecchia）：</h4>
-                                        <ul class="space-y-2 ml-2">
-                                            <li>逛石板路小巷，看彩色中世纪建筑，逛手工艺品店与咖啡馆</li>
-                                            <li>参观圣洛伦佐教堂（Chiesa di San Lorenzo），俯瞰湖景</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <h3 class="text-xl font-bold text-primary mb-2">12:00-14:00 午餐</h3>
-                                <ul class="space-y-2 ml-2">
-                                    <li>推荐：Osteria del Lago（湖景餐厅，尝瑞士奶酪火锅、意式海鲜面）</li>
-                                    <li>或在老城区的Gelateria di Lugano吃手工冰淇淋</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <h3 class="text-xl font-bold text-primary mb-2">14:00-17:30 圣萨尔瓦托雷山（Monte San Salvatore）</h3>
-                                <ul class="space-y-2 ml-2">
-                                    <li>乘缆车（单程€10）上山，登顶后俯瞰卢加诺湖、阿尔卑斯山与米兰平原</li>
-                                    <li>山上有观景台、餐厅与徒步路线，适合拍大片</li>
-                                    <li>感受 "瑞士 + 意大利" 双重风景</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <h3 class="text-xl font-bold text-primary mb-2">17:30-19:00 返回米兰</h3>
-                                <ul class="space-y-2 ml-2">
-                                    <li>从卢加诺车站乘火车返回米兰中央车站，约 1 小时</li>
-                                    <li>回酒店休息，或在市区吃晚餐</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-8 bg-blue-50 rounded-lg p-4 border-l-4 border-primary">
-                        <h4 class="font-bold text-primary mb-2">瑞士一日游提示</h4>
-                        <ul class="space-y-1 ml-2">
-                            <li>记得带护照，需要过境瑞士（申根区但非欧盟国家）</li>
-                            <li>瑞士使用瑞士法郎（CHF），部分地方也接受欧元，但找零可能是瑞士法郎</li>
-                            <li>卢加诺山区风大，需备防风外套</li>
-                            <li>提前查好火车时刻表，避免错过末班车</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3月31日行程 -->
-        <section class="slide bg-gray-50">
-            <div class="container mx-auto max-w-5xl">
-                <div class="bg-white rounded-xl p-8 shadow-card">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-3xl font-bold text-primary">3月31日（周二）</h2>
-                        <span class="bg-primary text-white px-4 py-2 rounded-full text-lg">米兰深度游 + 返程</span>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div class="bg-light rounded-lg p-4 text-center">
-                            <i class="fa fa-camera text-3xl text-secondary mb-2"></i>
-                            <h3 class="font-bold">最后打卡</h3>
-                            <p class="text-sm text-gray-600">09:00-12:30</p>
-                        </div>
-                        <div class="bg-light rounded-lg p-4 text-center">
-                            <i class="fa fa-cutlery text-3xl text-secondary mb-2"></i>
-                            <h3 class="font-bold">午餐 + 购物</h3>
-                            <p class="text-sm text-gray-600">12:30-14:30</p>
-                        </div>
-                        <div class="bg-light rounded-lg p-4 text-center">
-                            <i class="fa fa-plane text-3xl text-secondary mb-2"></i>
-                            <h3 class="font-bold">前往机场</h3>
-                            <p class="text-sm text-gray-600">15:00-16:05</p>
-                        </div>
-                    </div>
-                    
-                    <div class="space-y-6">
-                        <div class="timeline-item">
-                            <h3 class="text-xl font-bold text-primary mb-2">09:00-12:30 最后打卡</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <h4 class="font-bold">斯福尔扎城堡（Castello Sforzesco）：</h4>
-                                    <ul class="space-y-1 ml-2 text-sm">
-                                        <li>免费入内，逛博物馆</li>
-                                        <li>米开朗基罗最后作品《隆达尼尼圣殇》藏于此</li>
-                                        <li>城堡花园适合野餐</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">圣玛利亚感恩教堂（可选）：</h4>
-                                    <ul class="space-y-1 ml-2 text-sm">
-                                        <li>若提前预约到，看达芬奇《最后的晚餐》</li>
-                                        <li>需提前 1-2 个月预约，€16</li>
-                                        <li>若没约到，可逛波尔迪・佩佐利博物馆（€12）</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <h3 class="text-xl font-bold text-primary mb-2">12:30-14:30 午餐 + 购物</h3>
-                            <ul class="space-y-2 ml-2">
-                                <li>午餐：在Luini或Pizzi吃最后一顿意式简餐</li>
-                                <li class="font-semibold">伴手礼推荐：</li>
-                                <li class="ml-4">- 在大教堂附近买费列罗巧克力、阿玛尼香水</li>
-                                <li class="ml-4">- 在Eataly买意大利面、橄榄油</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <h3 class="text-xl font-bold text-primary mb-2">15:00-16:05 前往贝加莫机场（BGY）</h3>
-                            <ul class="space-y-2 ml-2">
-                                <li>从米兰中央车站乘Orio al Serio Shuttle巴士（约 1 小时，€5-10）</li>
-                                <li>或打车（约€100，1 小时）</li>
-                                <li>提前 2 小时到机场，办理值机与退税（若有购物）</li>
-                                <li>16:05 起飞返回布达佩斯</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-8 bg-blue-50 rounded-lg p-4 border-l-4 border-primary">
-                        <h4 class="font-bold text-primary mb-2">返程提示</h4>
-                        <ul class="space-y-1 ml-2">
-                            <li>贝加莫机场（BGY）距离米兰市区较远，请预留充足时间</li>
-                            <li>若有购物，记得在机场办理退税手续</li>
-                            <li>提前检查护照、登机牌等重要证件</li>
-                            <li>整理好照片和回忆，结束愉快的米兰+卢加诺之旅！</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 实用Tips -->
-        <section class="slide bg-white">
-            <div class="container mx-auto max-w-5xl">
-                <h2 class="text-4xl font-bold mb-8 text-center text-primary">实用 Tips</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- 实用Tips -->
-                    <div class="bg-light rounded-xl p-6 shadow-card">
-                        <h3 class="text-2xl font-bold mb-4 text-primary flex items-center">
-                            <i class="fa fa-lightbulb-o mr-2"></i>实用提示
-                        </h3>
-                        <div class="space-y-4">
-                            <div>
-                                <h4 class="font-bold text-secondary">交通：</h4>
-                                <p>米兰市内推荐买24/48 小时公交卡（€7/€12），地铁 + 公交 + 电车通用</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-secondary">预约：</h4>
-                                <p>米兰大教堂登顶、布雷拉美术馆、圣玛利亚感恩教堂需提前在官网预约，避免排队</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-secondary">穿搭：</h4>
-                                <p>3 月底米兰气温约 10-20℃，建议穿多层衣物，带一件薄外套，卢加诺山区风大，需备防风外套</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-secondary">语言：</h4>
-                                <p>米兰英语普及率高，卢加诺说意大利语 + 德语，简单英语即可沟通</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-secondary">安全：</h4>
-                                <p>火车站、大教堂周边注意防盗，背包放身前，不要理会街头小贩</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 美食清单 -->
-                    <div class="bg-light rounded-xl p-6 shadow-card">
-                        <h3 class="text-2xl font-bold mb-4 text-primary flex items-center">
-                            <i class="fa fa-cutlery mr-2"></i>美食清单（必尝）
-                        </h3>
-                        <div class="space-y-4">
-                            <div>
-                                <h4 class="font-bold text-secondary">主食：</h4>
-                                <ul class="ml-4 list-disc">
-                                    <li>那不勒斯披萨</li>
-                                    <li>米兰炖饭（Risotto alla Milanese）</li>
-                                    <li>炸饭团（Arancini）</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-secondary">甜点：</h4>
-                                <ul class="ml-4 list-disc">
-                                    <li>提拉米苏</li>
-                                    <li>意式冰淇淋（Gelato）</li>
-                                    <li>潘娜托尼（Panettone，季节性）</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-secondary">饮品：</h4>
-                                <ul class="ml-4 list-disc">
-                                    <li>Aperol Spritz（开胃酒）</li>
-                                    <li>浓缩咖啡（Espresso）</li>
-                                </ul>
-                            </div>
+                        <div class="bg-white bg-opacity-5 rounded-lg p-4">
+                            <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/942970317679493151~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=8HpIdPZ9Rx3wKcSWfqBMUPykdAs%3D" alt="复活节弥撒" class="w-full h-40 object-cover mb-4">
+                            <h4 class="font-bold mb-2 text-center">复活节弥撒</h4>
+                            <p class="text-sm text-gray-300 text-center">在罗马，复活节期间会在圣彼得大教堂举行盛大的弥撒仪式，由教皇主持，吸引来自世界各地的信徒。</p>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 备选方案 -->
-                <div class="mt-8 bg-light rounded-xl p-6 shadow-card">
-                    <h3 class="text-2xl font-bold mb-4 text-primary flex items-center">
-                        <i class="fa fa-list-alt mr-2"></i>3.29 Jessie 单独游玩备选方案
-                    </h3>
+                <!-- 紧急联系 -->
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-red-500 rounded-full p-3 mr-4">
+                            <i class="fa fa-phone text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold">紧急联系</h3>
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-white rounded-lg p-4 shadow-sm">
-                            <h4 class="font-bold text-secondary mb-2">艺术爱好者：</h4>
-                            <p>布雷拉美术馆 → 圣马可教堂 → 运河区</p>
+                        <div class="text-center p-4 border border-white border-opacity-20 rounded-lg">
+                            <p class="font-bold mb-1">紧急救援</p>
+                            <p>112（欧盟通用）</p>
                         </div>
-                        <div class="bg-white rounded-lg p-4 shadow-sm">
-                            <h4 class="font-bold text-secondary mb-2">拍照爱好者：</h4>
-                            <p>大教堂 → 埃马努埃莱二世长廊 → 布雷拉美术区 → 运河区</p>
+                        <div class="text-center p-4 border border-white border-opacity-20 rounded-lg">
+                            <p class="font-bold mb-1">匈牙利警察</p>
+                            <p>107</p>
                         </div>
-                        <div class="bg-white rounded-lg p-4 shadow-sm">
-                            <h4 class="font-bold text-secondary mb-2">购物爱好者：</h4>
-                            <p>蒙特拿破仑大街 → 10 Corso Como → 圣巴比拉区</p>
+                        <div class="text-center p-4 border border-white border-opacity-20 rounded-lg">
+                            <p class="font-bold mb-1">意大利警察</p>
+                            <p>113</p>
+                        </div>
+                        <div class="text-center p-4 border border-white border-opacity-20 rounded-lg">
+                            <p class="font-bold mb-1">匈牙利救护车</p>
+                            <p>104</p>
+                        </div>
+                        <div class="text-center p-4 border border-white border-opacity-20 rounded-lg">
+                            <p class="font-bold mb-1">意大利救护车</p>
+                            <p>118</p>
+                        </div>
+                        <div class="text-center p-4 border border-white border-opacity-20 rounded-lg">
+                            <p class="font-bold mb-1">中国驻意大利使馆</p>
+                            <p>+39 06 9652426</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 结尾页 -->
-        <section class="slide bg-gradient-primary text-white">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl font-bold mb-6">期待您的米兰+卢加诺之旅！</h2>
-                <p class="text-xl mb-8">祝您旅途愉快，收获满满！</p>
-                
-                <div class="flex justify-center space-x-8 mb-12">
-                    <div>
-                        <i class="fa fa-camera text-3xl mb-2"></i>
-                        <p>拍出美照</p>
-                    </div>
-                    <div>
-                        <i class="fa fa-cutlery text-3xl mb-2"></i>
-                        <p>品尝美食</p>
-                    </div>
-                    <div>
-                        <i class="fa fa-shopping-bag text-3xl mb-2"></i>
-                        <p>购物愉快</p>
-                    </div>
-                    <div>
-                        <i class="fa fa-heart text-3xl mb-2"></i>
-                        <p>享受旅程</p>
-                    </div>
+        <!-- 结束语 -->
+        <section class="slide bg-gradient-easter relative">
+            <div class="absolute inset-0 bg-dark bg-opacity-30"></div>
+            <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+                <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/993910141743136790~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002571&x-signature=sria8JOqIhnXaINjP1F1mHQJgVw%3D" alt="复活节兔子和彩蛋" class="w-40 h-40 object-contain mx-auto mb-8">
+                <h2 class="text-4xl font-bold mb-6 text-shadow">祝您旅途愉快！</h2>
+                <p class="text-xl mb-10 text-shadow-sm">希望这份行程安排能帮助您度过一个难忘的复活节欧洲之旅</p>
+                <div class="flex justify-center space-x-6 mb-12">
+                    <a href="#overview" class="bg-white text-dark hover:bg-opacity-90 px-6 py-3 rounded-full font-semibold transition-all-300">
+                        <i class="fa fa-arrow-up mr-2"></i>返回顶部
+                    </a>
                 </div>
-                
-                <p class="text-sm opacity-75">本行程由AI助手为您定制 | 2026年3月</p>
+                <p class="text-sm text-gray-200">© 2026 复活节欧洲之旅 · 布达佩斯→罗马→那不勒斯</p>
             </div>
         </section>
     </div>
 
     <script>
-        // 切换标签页功能
-        function switchTab(tabId, button) {
-            // 隐藏所有标签内容
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // 移除所有按钮的活动状态
-            document.querySelectorAll('.tab-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // 显示选中的标签内容
-            document.getElementById(tabId).classList.add('active');
-            
-            // 添加按钮的活动状态
-            button.classList.add('active');
-        }
-        
-        // 平滑滚动效果
+        // 平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -769,11 +972,37 @@
                 });
             });
         });
+
+        // 添加滚动动画效果
+        const slides = document.querySelectorAll('.slide');
         
-        // 页面加载完成后的动画效果
-        window.addEventListener('DOMContentLoaded', () => {
-            // 可以在这里添加页面加载动画
+        function checkScroll() {
+            slides.forEach(slide => {
+                const slideTop = slide.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (slideTop < windowHeight * 0.75 && slideTop > -windowHeight * 0.25) {
+                    slide.classList.add('opacity-100');
+                    slide.classList.remove('opacity-50');
+                } else {
+                    slide.classList.add('opacity-50');
+                    slide.classList.remove('opacity-100');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
+        
+        // 添加复活节彩蛋效果
+        document.querySelectorAll('.easter-egg').forEach(egg => {
+            egg.addEventListener('click', function() {
+                this.style.animation = 'none';
+                setTimeout(() => {
+                    this.style.animation = 'float 3s ease-in-out infinite';
+                }, 10);
+            });
         });
     </script>
-
-</body></html>
+</body>
+</html>
